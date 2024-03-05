@@ -10,14 +10,14 @@ import hello.core.member.MemberRepository;
 @Component
 public class OrderServiceImpl implements OrderService{
 
-	private final MemberRepository memberRepository;
-	private final DiscountPolicy discountPolicy;
+	@Autowired private MemberRepository memberRepository; // 필드에 직접 주입은 권장 x , 스프링 컨테이너 없으면 주입이 안됨
+	@Autowired private DiscountPolicy discountPolicy;
 	
-	@Autowired // 생성자 파라미터가 여러개여도 각 타입에 맞는 스프링빈을 찾아서 넣어줌
-	public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-		this.memberRepository = memberRepository;
-		this.discountPolicy = discountPolicy;
-	}
+//	@Autowired // 생성자 파라미터가 여러개여도 각 타입에 맞는 스프링빈을 찾아서 넣어줌
+//	public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+//		this.memberRepository = memberRepository;
+//		this.discountPolicy = discountPolicy;
+//	}
 
 	@Override
 	public Order createOrder(Long memberId, String itemName, int itemPrice) {
