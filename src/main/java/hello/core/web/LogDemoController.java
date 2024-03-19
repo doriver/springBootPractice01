@@ -22,6 +22,7 @@ public class LogDemoController {
 		
 //		MyLogger myLogger = myLoggerProvider.getObject(); // HTTP 요청이 진행중이므로 requestScopeBean이 생성된다
 		System.out.println("controller myLogger = " + myLogger.getClass());
+		System.out.println("1");
 		myLogger.setRequestURL(requestURL); // 기능을 실제 호출하는 시점에, 진짜 빈이 생성되고 동작
 		myLogger.log("log in controller");
 		
