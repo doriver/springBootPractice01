@@ -10,10 +10,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LogDemoService {
 
-	private final ObjectProvider<MyLogger> myLoggerProvider;
+	private final MyLogger myLogger;
 	
 	public void getLoggerAndLog(String id) {
-		MyLogger myLogger = myLoggerProvider.getObject(); // Controller와 같은 HTTP 요청이라, Controller에서 생성된 같은 requestBean이 반환된다!
+//		MyLogger myLogger = myLoggerProvider.getObject(); // Controller와 같은 HTTP 요청이라, Controller에서 생성된 같은 requestBean이 반환된다!
 		myLogger.log("service id = " + id);
 	}
 }

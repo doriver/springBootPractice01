@@ -3,13 +3,14 @@ package hello.core.common;
 import java.util.UUID;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 
 @Component
-@Scope(value= "request") // HTTP요청당 빈이 1개씩만 생성, HTTP요청 끝나는 시점에 소멸
+@Scope(value= "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class MyLogger { // 로그 출력위한 클래스
 	private String uuid;
 	private String requestURL;
