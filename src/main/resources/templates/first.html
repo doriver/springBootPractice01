@@ -1,15 +1,86 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<!-- 
+   <script> 태그의 src 속성
+  웹 페이지에서 로드할 스크립트 파일의 경로를 지정
+
+1.상대경로
+'..'는 현재 디렉토리의 상위 디렉토리를 나타냄
+../scripts/script.js (현재 디렉토리의 상위 디렉토리에 있는 scripts 디렉토리의 script.js 파일)
+
+2.절대경로
+/scripts/script.js (웹 서버의 루트 디렉토리에서부터 scripts 디렉토리의 script.js 파일)
+
+SpringBoot에서 "웹 서버의 루트 디렉토리"란 정적 리소스 파일들이 위치하는 기본 디렉토리를 의미
+기본 설정에서는 src/main/resources/static 이다
+
+
+3.외부 URL
+외부 URL을 지정하여 CDN 등을 통해 외부 스크립트를 로드
+https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js 
+( CDN에서 제공하는 jQuery 라이브러리 파일 )
+
+ -->
+
 <head>
     <meta charset="UTF-8">
     <title>title</title>
+    <script src="/js/jquery-3.7.1.min.js"></script>
 </head>
+
+<!--  
+
+   id속성 
+HTML 요소를 식별하기 위한 고유한 식별자
+CSS와 JavaScript에서 해당요소를 선택하거나 조작할 수 있다
+label요소의 for속성과 연결되어 해당 input요소를 설명
+
+   name속성
+서버 측 코드에서는 이 이름을 사용하여 사용자가 입력한 데이터에 접근
+폼 제출 시에 필수적
+-->
+    	
+    	
 <body>
+	<div id="test"></div>
+
     <h1>Hello World!</h1>
     <h1 th:text="${message}"></h1>
     
-    <form action="/form" method="post">
-    	<
+  
+    <form action="/c01/aaa" method="post">
+    	<label for="ii">이름</label>
+    	<input type="text" id="ii" name="nnn"><br>
+    	<button type="submit">form제출</button>
     </form>
+    
+    
+    성명
+    <input type="text" id="name">
+	<button id="bbb">ajax요청</button>
+
+	<script>
+		$('#test').html('제이쿼리 테스트').css('border','1px solid blue');
+		
+		$("#bbb").click( 
+			function(){
+				var params = {
+						nnn: $("#name").val()
+				}
+				
+				$.ajax({
+					type:"post",
+					url:"/c01/aaa",
+					data:params,
+					success:function(res){
+						alert(res);
+					},
+					error:function(XMLHttpRequest){
+						alert("통신실패");
+					}
+				});
+			}		
+		);
+	</script>
 </body>
 </html>
