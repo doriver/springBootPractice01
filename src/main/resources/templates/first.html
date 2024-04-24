@@ -51,12 +51,16 @@ label요소의 for속성과 연결되어 해당 input요소를 설명
     <form action="/c01/aaa" method="post">
     	<label for="ii">이름</label>
     	<input type="text" id="ii" name="nnn"><br>
+    	<label for="pw">비번</label>
+    	<input type="password" id="pw" name="ppp"><br>
     	<button type="submit">form제출</button>
     </form>
     
     
     성명
     <input type="text" id="name">
+    비번
+    <input type="password" id="password">
 	<button id="bbb">ajax요청</button>
 
 	<script>
@@ -65,7 +69,8 @@ label요소의 for속성과 연결되어 해당 input요소를 설명
 		$("#bbb").click( 
 			function(){
 				var params = {
-						nnn: $("#name").val()
+						nnn: $("#name").val(),
+						ppp: $("#password").val()
 				}
 				
 				$.ajax({
@@ -73,10 +78,12 @@ label요소의 for속성과 연결되어 해당 input요소를 설명
 					url:"/c01/aaa",
 					data:params,
 					success:function(res){
-						alert(res);
+						console.log(res); // 콘솔에선 JSON.stringify() 안해도 정상출력됨
+						// alert(res); // 이렇게하면  [object Object] 나옴, 아래처럼 JSON.stringify() 해줘야 정상 출력
+						alert(JSON.stringify(res));
 					},
-					error:function(XMLHttpRequest){
-						alert("통신실패");
+					error:function(xhr, status, error){
+						alert(xhr.responseText);
 					}
 				});
 			}		
