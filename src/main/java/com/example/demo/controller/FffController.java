@@ -1,17 +1,23 @@
 package com.example.demo.controller;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.entity.User;
+import com.example.demo.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
 
 @Controller
-//@RequiredArgsConstructor // final이 붙은 필드를 모아서 생성자를 만들어줌
+@RequiredArgsConstructor // final이 붙은 필드를 모아서 생성자를 만들어줌
 public class FffController {
+	
+	private final UserRepository userRepository; 
 	
 	@GetMapping("/view")
 	public String vv() {
@@ -20,14 +26,17 @@ public class FffController {
 	
 	@GetMapping("/save")
 	@ResponseBody
-	public String ssvv() {
-		return "save";
+	public User ssvv() {
+		User us = new User();
+		us.setUsername("bbb");
+		us.setEmail("google.com");
+		return userRepository.save(us);
 	}
 	
 	@GetMapping("/find")
 	@ResponseBody
-	public String ffdd(@RequestParam("nnn") Long id) {
-		
-		return "find  00" + id;
+	public Optional<User> ffdd(@RequestParam("nnn") Long id) {
+		Optional<User> ou = userRepository.findById(id);
+		return ou;
 	}
 }
