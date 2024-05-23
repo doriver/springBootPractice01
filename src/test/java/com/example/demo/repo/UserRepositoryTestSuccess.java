@@ -73,4 +73,26 @@ public class UserRepositoryTestSuccess {
 		
 		System.out.println("aa");
 	}
+	
+	@Test
+	public void update01() {
+		User us = new User();
+		us.setId(3L);
+		us.setUsername("asdad");
+		us.setEmail("gooom"); // 이렇게해서 save 했더니 id =9로 생겼음
+		
+		Optional<User> Ouser = userRepository.findById(8L);
+		Ouser.get().setUsername("aaaa");
+		Ouser.get().setEmail("bbbb");
+		
+		User inserted = userRepository.save(Ouser.get()); // save는 존재하는 엔터티의 경우 업데이트로 동작
+		System.out.println("aa");
+	}
+	
+	@Test
+	public void update02() {
+		Optional<User> Ouser = userRepository.findById(8L);
+		Ouser.get().setUsername("777"); // 이렇게 조회만 해주고 값 바꿔주면, 바꿔준값 update됨 
+		System.out.println("aa");
+	}
 }

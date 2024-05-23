@@ -37,14 +37,7 @@ public class UserRepositoryTest {
 	@Autowired 
 	UserRepository userRepository;
 	
-	@Test
-	public void se() {
-		
-	}
-	@Test
-	public void sea() {
-		
-	}
+	
 	@Test
 	public void see() {
 		
