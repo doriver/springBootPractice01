@@ -37,9 +37,12 @@ public class UserRepositoryTest {
 	@Autowired 
 	UserRepository userRepository;
 	
-	
 	@Test
-	public void see() {
+	public void seeA() {
+		
+	}
+	@Test
+	public void seeB() {
 		
 	}
 	
