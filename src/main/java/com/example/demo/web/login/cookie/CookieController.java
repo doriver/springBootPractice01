@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,12 +32,17 @@ public class CookieController {
 			, Model model ) { // @CookieValue로 요청안에 있는 쿠키 조회함
 		
 		if (memberId == 1) {
-			model.addAttribute("member", "memberId :" + memberId);
+//			model.addAttribute("member", "memberId :" + memberId);
 			return "cookie/hasCookie";
 		}
 		
 		return "cookie/noCookie";
 	}
 	
+	@GetMapping("/empty")
+	@ResponseBody
+	public String aa(@CookieValue(name="memberId", required=false) Long memberId) {
+		return "memberId :" + memberId;
+	}
 	
 }
