@@ -7,14 +7,14 @@
 </head>
 <body>
 	<div id="test"></div>
-	<button id="bbb">ajax요청</button>
+	<button id="bbb">ajax요청(쿠키 확인용)</button>
+	<button id="cc">쿠키삭제</button>
 	
 	<script>
 		$('#test').html('cookie있음').css('border','1px solid blue');
 		
 		$("#bbb").click( 
 			function(){
-				
 				$.ajax({
 					type:"get",
 					url:"/empty",
@@ -25,6 +25,20 @@
 					},
 					error:function(xhr, status, error){
 						alert(xhr.responseText);
+					}
+				});
+			}		
+		);
+		$("#cc").click( 
+			function(){
+				$.ajax({
+					type:"get",
+					url:"/deleteCookie",
+					success:function(res){
+						window.location.href = "/cookieView"; // 리디렉션할 URL
+					},
+					error:function(xhr, status, error){
+						
 					}
 				});
 			}		
