@@ -1,10 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>로그인 페이지</title>
+<script src="/js/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-	<h2> �α���ID , ��й�ȣ </h2>
+	<div id="test"></div>
+	<button id="bbb" >ajax요청(세션 로그인 처리)</button>
+	<button id="cc">임시 로그아웃</button>
+	
+	<script>
+		$('#test').html('로그인ID , 비밀번호').css('border','1px solid blue');
+		
+		$("#bbb").click( 
+			function(){
+				$.ajax({
+					type:"post",
+					url:"/login",
+					success:function(res){
+						/*
+						console.log(res); // 콘솔에선 JSON.stringify() 안해도 정상출력됨
+						// alert(res); // 이렇게하면  [object Object] 나옴, 아래처럼 JSON.stringify() 해줘야 정상 출력
+						alert(JSON.stringify(res));
+						*/
+					},
+					error:function(xhr, status, error){
+						alert(xhr.responseText);
+					}
+				});
+			}		
+		);
+	
+		$("#cc").click( 
+			function(){
+				$.ajax({
+					type:"get",
+					url:"/logout",
+					success:function(res){
+						//window.location.href = "/cookieView"; // 리디렉션할 URL
+					},
+					error:function(xhr, status, error){
+						
+					}
+				});
+			}		
+		);
+	
+	</script>
 </body>
 </html>
