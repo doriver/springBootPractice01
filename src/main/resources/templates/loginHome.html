@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>로그인 되고나서 Home</title>
@@ -8,7 +8,7 @@
 <body>
 	<div id="test"></div>
 	<button id="bbb">ajax요청(아직x)</button>
-	<button id="cc">ajax요청(아직x)</button>
+	<button id="cc" th:onclick="|location.href='@{/logout}'|">로그아웃(세션삭제)</button>
 	
 	<script>
 		$('#test').html('로그인 되고나서 Home').css('border','1px solid blue');
