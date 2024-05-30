@@ -1,4 +1,4 @@
-package com.example.demo.web.login.cookie;
+package com.example.demo.web.cookie;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
