@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>로그인 페이지</title>
+<script src="/js/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+	<div id="test"></div>
+	<form action="/login" method="post">
+		<button type="submit">form제출, 로그인(세션)</button>
+	</form>
+	
+	<script>
+		$('#test').html('로그인ID , 비밀번호').css('border','1px solid blue');
+		
+	
+		$("#cc").click( 
+			function(){
+				$.ajax({
+					type:"get",
+					url:"/logout",
+					success:function(res){
+						//window.location.href = "/cookieView"; // 리디렉션할 URL
+					},
+					error:function(xhr, status, error){
+						
+					}
+				});
+			}		
+		);
+	
+	</script>
+</body>
+</html>
