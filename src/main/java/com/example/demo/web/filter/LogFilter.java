@@ -33,17 +33,18 @@ public class LogFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		String requestURI = httpRequest.getRequestURI();
 		
-//		String uuid = UUID.randomUUID().toString(); // HTTP요청을 구분하기 위해, 요청당 임의의 uuid를 생성
-		
+//		String uuid = UUID.randomUUID().toString(); // 요청당 임의의 uuid를 생성, 아래 ip구하는걸로 업그레이드 함
+		String ip = getClientIP(httpRequest);
 		try {
-			String ip = getClientIP(httpRequest);
 			log.info("Request [{}][{}]", ip, requestURI);
-			chain.doFilter(request, response);
+			chain.doFilter(request, response); // LoginCheckFilter 호출
 			//  다음 필터가 있으면 필터를 호출하고, 필터가 없으면 서블릿을 호출한다. 만약 이로직을 호출하지 않으면 다음 단계로 진행되지 않는다.
 		} catch(Exception e) {
-			throw e;
+			throw e; // 톰캣까지 예외를 보내줘야함
 		} finally {
-//			log.info("Response [{}][{}]", uuid, requestURI); 이건 왜 해놨는지 모르겠음
+			log.info("Response [{}][{}]", ip, requestURI); // 2번째 필터( LoginCheckFilter ) finally까지 수행되고나서 수행됨
+			// LoginCheckFilter에서 DispatcherServlet까지 가는경우, 컨트롤러 메서드 호출 후 이루어짐, 응답직전인듯?
+			// 그냥 응답 직전에 수행되는듯??? 
 		}
 		
 	}
