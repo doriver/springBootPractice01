@@ -3,7 +3,7 @@ package com.example.demo.web.filter;
 import java.io.IOException;
 import java.util.UUID;
 
-import com.example.demo.web.common.Common01;
+import com.example.demo.web.common.CommonFilterInterceptor;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -37,15 +37,18 @@ public class LogFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		String requestURI = httpRequest.getRequestURI();
 		
-//		String uuid = UUID.randomUUID().toString(); // 요청당 임의의 uuid를 생성, 아래 ip구하는걸로 업그레이드 함
-		String ip = Common01.getClientIP(httpRequest);
+		String logId = UUID.randomUUID().toString(); // 요청당 임의의 uuid를 생성
+		String ip = CommonFilterInterceptor.getClientIP(httpRequest);
+		request.setAttribute(CommonFilterInterceptor.LOG_ID, logId);
+		request.setAttribute(CommonFilterInterceptor.CLINET_IP, ip);
+		
 		try {
-			log.info("Request [{}][{}]", ip, requestURI);
+			log.info("Request in firstFilter [{}][{}][{}]", logId, ip, requestURI);
 			chain.doFilter(request, response); // LoginCheckFilter 호출( 다음 필터가 있으면 필터를 호출하고, 필터가 없으면 서블릿을 호출한다. 만약 이로직을 호출하지 않으면 다음 단계로 진행되지 않는다. )  
 		} catch(Exception e) {
 			throw e; // 톰캣까지 예외를 보내줘야함
 		} finally { // 요청에대한 처리가 끝난후, 응답전에 실행됨( chain.doFilter(request, response); 다음이기 때문에 )
-			log.info("Response [{}][{}]", ip, requestURI); // 2번째 필터( LoginCheckFilter ) finally까지 수행되고나서 수행됨
+			log.info("Response in firstFilter [{}][{}][{}]", logId, ip, requestURI); // 2번째 필터( LoginCheckFilter ) finally까지 수행되고나서 수행됨
 		}
 		
 	}

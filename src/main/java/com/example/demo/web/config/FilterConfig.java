@@ -10,7 +10,7 @@ import com.example.demo.web.filter.LoginCheckFilter;
 import jakarta.servlet.Filter;
 
 @Configuration
-public class WebConfig {
+public class FilterConfig {
 
 	/*
 	 * FilterRegistrationBean를 사용해서 필터를 등록
@@ -31,4 +31,7 @@ public class WebConfig {
 		filterRegistrationBean.addUrlPatterns("/*"); // 필터를 적용 URL패턴
 		return filterRegistrationBean;
 	}
+	
+
+	
 }

@@ -4,7 +4,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Common01 {
+public class CommonFilterInterceptor {
+	
+	public static final String CLINET_IP = "clientIp";
+	public static final String LOG_ID = "logId"; // 요청당 마다 구분해줄 값
+	
 	/**		 getRemoteAddr()로, 클라이언트의 원 IP주소를 못가져오는 현상
 	 *  Web Server에서 프록시나 로드 밸런서를 통해 WAS에 요청하면, 프록시나 로드 밸런서의 IP 주소만을 담고 있다.
 	 * 
