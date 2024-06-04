@@ -39,16 +39,11 @@ public class LogFilter implements Filter {
 		String ip = getClientIP(httpRequest);
 		try {
 			log.info("Request [{}][{}]", ip, requestURI);
-			chain.doFilter(request, response); // LoginCheckFilter 호출
-			//  다음 필터가 있으면 필터를 호출하고, 필터가 없으면 서블릿을 호출한다. 만약 이로직을 호출하지 않으면 다음 단계로 진행되지 않는다.
+			chain.doFilter(request, response); // LoginCheckFilter 호출( 다음 필터가 있으면 필터를 호출하고, 필터가 없으면 서블릿을 호출한다. 만약 이로직을 호출하지 않으면 다음 단계로 진행되지 않는다. )  
 		} catch(Exception e) {
 			throw e; // 톰캣까지 예외를 보내줘야함
-			
-		} finally { // 요청에대한 처리가 끝난후, 응답전에 실행됨
-			
+		} finally { // 요청에대한 처리가 끝난후, 응답전에 실행됨( chain.doFilter(request, response); 다음이기 때문에 )
 			log.info("Response [{}][{}]", ip, requestURI); // 2번째 필터( LoginCheckFilter ) finally까지 수행되고나서 수행됨
-			// LoginCheckFilter에서 DispatcherServlet까지 가는경우, 컨트롤러 메서드 호출 후 이루어짐, 응답직전인듯?
-			// 그냥 응답 직전에 수행되는듯??? 
 		}
 		
 	}
@@ -95,7 +90,7 @@ public class LogFilter implements Filter {
 	/**		 getRemoteAddr()로, 클라이언트의 원 IP주소를 못가져오는 현상
 	 *  Web Server에서 프록시나 로드 밸런서를 통해 WAS에 요청하면, 프록시나 로드 밸런서의 IP 주소만을 담고 있다.
 	 * 
-	 *  X-Forwarded-For (XFF) 헤더는
+	 *  X-Forwarded-For( XFF ) 헤더는
 	 *  HTTP 프록시나 로드 밸런서를 통해 웹 서버에 접속하는 클라이언트의 원 IP 주소를 식별하는 표준 헤더
 	 *  프록시나 로드밸런스 등을 사용할 경우 Apache/Nginx에서 설정이 되어있다는 가정하에 클라이언트의 실제 접속 IP를 가져올 수 있다.
 	 */
