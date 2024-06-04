@@ -23,7 +23,7 @@ public class FilterConfig {
 		filterRegistrationBean.addUrlPatterns("/*"); // 필터를 적용할 URL패턴 지정
 		return filterRegistrationBean;
 	}
-	@Bean
+//	@Bean // 인터셉터에서 로그인체크 하면 주석해야함
 	public FilterRegistrationBean loginCheckFilter() {
 		FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
 		filterRegistrationBean.setFilter(new LoginCheckFilter()); // 등록할 필터

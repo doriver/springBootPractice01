@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginCheckFilter implements Filter {
 	
 	// whitelist는 항상허용( 다음 필터나 디페servlet ), whitelist 제외한 나머지 경로는 인증체크로직 적용( 인증안된경우는, 응답쪽으로 돌려주는 로직 )
-	private static final String[] whitelist = {"/", "/login","/plogin", "/logout", "/js/*"};
+	private static final String[] whitelist = {"/", "/login","/plogin", "/logout", "/js/*","/*.ico", "/data"};
 	
 	
 	@Override
