@@ -16,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 		첫번째 필터
  * logId, clientIp 구해서 request에 set해줌
- * 로그에 logId, ip, requestURI 찍어줌
+ * 
+ * 로그 찍는것들
+ * logId, ip, requestURI
  */
 @Slf4j
 public class LogFilter implements Filter {

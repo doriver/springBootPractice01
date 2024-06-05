@@ -15,7 +15,8 @@ import lombok.extern.slf4j.Slf4j;
  * 
  * 		첫번째 인터셉터
  *	첫번째 필터에서 request에 set해주었던 logId, clientIp를 가져다 씀
- *
+ *	
+ *	로그 찍는것들
  *  logId, clientIp, requestURI, handler
  *  logId, modelAndView
  *  logId, clientIp, requestURI

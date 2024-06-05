@@ -10,7 +10,7 @@ import com.example.demo.web.interceptor.LoginCheckInterceptor;
  * 인터셉터 등록
  * WebMvcConfigurer 가 제공하는 addInterceptors() 를 사용해서 인터셉터를 등록
  */
-@Configuration
+@Configuration							// WebMvcConfigurer가 제공하는 Override할 메소드들 엄청 많음
 public class InterceptorConfig implements WebMvcConfigurer{
 
 	@Override
@@ -27,7 +27,7 @@ public class InterceptorConfig implements WebMvcConfigurer{
 		registry.addInterceptor(new LoginCheckInterceptor())
 			.order(2)
 			.addPathPatterns("/**")
-			.excludePathPatterns( 
+			.excludePathPatterns( // 인증체크 안할 요청들
 					"/", "/plogin"
 					, "/login", "/logout"
 					, "/data"
