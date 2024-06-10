@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 * PasswordEncoder가 비밀번호를 비교하는 역할
 		 * ( SpringSecurity01에선 메모리 내 인증 사용했었음 )
 		 */
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder()); // 나이 31 비번 1111로 고정 , username은 입력값
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class CustomUserDetails implements UserDetails {
 		this.user = user;
 	}
 
-    public int getAge() {
+    public int getAge() { // 이런식으로 User정보를 이용가능
         return user.getAge();
     }
     
