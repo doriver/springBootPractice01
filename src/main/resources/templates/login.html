@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
+<body>
+<!-- 
+POST /login: Spring Security가 내부적으로 처리하는 URL
+
+이 URL로의 POST 요청은 사용자 인증을 처리함
+사용자 이름과 비밀번호를 username 및 password 필드로 전송해야함
+ -->
+<form th:action="@{/login}" method="post">
+    <div>
+        <label for="username">UserName:</label>
+        <input type="text" id="username" name="username"/>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"/>
+    </div>
+    <div>
+        <button type="submit">Login</button>
+    </div>
+</form>
+
+</body>
+</html>

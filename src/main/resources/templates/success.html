@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>로그인 성공했음</h2>
+	<a href="/">Home으로</a>
+	<form th:action="@{/custom-logout}" method="post">
+	        <button type="submit">Logout</button>
+	</form>
+<!-- 
+logout() 메서드를 사용하면 Spring Security가 자동으로 로그아웃 기능을 처리해줌
+기본적으로 post 요청을 /logout URL로 보내면 사용자를 로그아웃시킴
+ -->
+
+</body>
+</html>
