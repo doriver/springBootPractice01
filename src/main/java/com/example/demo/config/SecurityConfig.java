@@ -4,13 +4,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
 @EnableWebSecurity // Spring Security를 활성화함  
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
-	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		/*
 		 * 메모리 내 인증을 사용 + 'user'라는 사용자와 '1234'라는 비밀번호를 가진 사용자 추가
@@ -22,12 +20,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	}
 
-	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// HTTP 요청에 대한 보안 설정을 구성합니다.
         http
             .authorizeRequests()
-                .antMatchers("/").permitAll()  // '/' 경로는 인증 없이 접근을 허용합니다.
+                .requestMatchers("/").permitAll()  // '/' 경로는 인증 없이 접근을 허용합니다.
                 .anyRequest().authenticated()  // 나머지 모든 요청은 인증을 요구합니다.
          //     인증 필요한 경로에, 인증없이 접근했을경우 > 로그인페이지로 연결됨
                 .and()
