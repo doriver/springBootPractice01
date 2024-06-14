@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-@EnableWebSecurity // Spring Security를 활성화함 
+@EnableWebSecurity // Spring Security를 활성화함  
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
