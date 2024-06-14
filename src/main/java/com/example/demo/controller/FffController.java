@@ -26,10 +26,10 @@ public class FffController {
 	
 	@GetMapping("/save")
 	@ResponseBody
-	public User ssvv() {
+	public User ssvv(@RequestParam("un") String userName, @RequestParam("em") String email) {
 		User us = new User();
-		us.setUsername("bbb");
-		us.setEmail("google.com");
+		us.setUsername(userName);
+		us.setEmail(email);
 		return userRepository.save(us);
 	}
 	

@@ -6,17 +6,27 @@
 <script src="/js/jquery-3.7.1.min.js"></script>
 </head>
 <body>
+	사용자이름
+	<input type="text" id="userName">
+	이메일
+	<input type="text" id="email">
 	<button id="bbb">save요청</button>
 	
 	<br>
+	id값
 	<input type="text" id="iidd">
 	<button id="fff">find요청</button>
 	<script>
 		$("#bbb").click( 
 			function(){
+				var params = {
+					un : $("#userName").val()
+					, em : $("#email").val()
+				}
 				$.ajax({
 					type:"get",
 					url:"/save",
+					data:params,
 					success:function(res){
 						console.log(res);  // 콘솔에선 JSON.stringify() 안해도 정상출력됨
 						// alert(res); // 이렇게하면  [object Object] 나옴, 아래처럼 JSON.stringify() 해줘야 정상 출력
