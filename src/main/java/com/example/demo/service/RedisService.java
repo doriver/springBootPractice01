@@ -10,8 +10,15 @@ public class RedisService {
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
 	
+	
+	/*
+	 * RedisTemplate가 저장, 읽기 핵심 역할
+	 * 
+	 * config쪽에서 Connection, Key, Value 세팅 해줌
+	 * RedisTemplate > ValueOperations > set(), get()
+	 */
 	public void save(String key, String value) {
-		redisTemplate.opsForValue().set(key, value);
+		redisTemplate.opsForValue().set(key, value); 
 	}
 	
 	public String get(String key) {
