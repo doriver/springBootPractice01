@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,4 +33,30 @@ public class RrestController01 {
 	public String get(@RequestParam("key") String key) {
 		return redisService.get(key);
 	}
+	
+	
+    @PostMapping("/sadd")
+    public Long sadd(@RequestParam("key") String key, @RequestParam("value") String value) {
+        return redisService.sadd(key, value);
+    }
+
+    @GetMapping("/scard")
+    public Long scard(@RequestParam("key") String key) {
+        return redisService.scard(key);
+    }
+
+    @GetMapping("/sismember")
+    public Boolean sismember(@RequestParam("key") String key, @RequestParam("value") String value) {
+        return redisService.sismember(key, value);
+    }
+
+    @DeleteMapping("/srem")
+    public Long srem(@RequestParam("key") String key, @RequestParam("value") String value) {
+        return redisService.srem(key, value);
+    }
+
+    @DeleteMapping("/del")
+    public void del(@RequestParam("key") String key) {
+        redisService.del(key);
+    }
 }
