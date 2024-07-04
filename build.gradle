@@ -43,3 +43,20 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// querydsl QClass 파일 생성 위치를 지정
+tasks.withType(JavaCompile) {
+    options.annotationProcessorGeneratedSourcesDirectory = file("src/main/generated")
+}
+
+// 소스 디렉토리 설정
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'src/main/generated']
+        }
+    }
+}
+
+// gradle clean 시에 QClass 디렉토리 삭제
+clean {	delete file('src/main/generated')}
