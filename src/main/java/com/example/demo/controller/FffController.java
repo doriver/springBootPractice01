@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -7,8 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.entity.QUser;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class FffController {
 	
 	private final UserRepository userRepository; 
+	private final JPAQueryFactory queryFactory;
 	
 	@GetMapping("/view")
 	public String vv() {
@@ -33,10 +37,21 @@ public class FffController {
 		return userRepository.save(us);
 	}
 	
-	@GetMapping("/find")
+//	@GetMapping("/find")
+//	@ResponseBody
+//	public Optional<User> ffdd(@RequestParam("nnn") Long id) {
+//		Optional<User> ou = userRepository.findById(id);
+//		return ou;
+//	}
+
+	@GetMapping("/qdfind")
 	@ResponseBody
-	public Optional<User> ffdd(@RequestParam("nnn") Long id) {
-		Optional<User> ou = userRepository.findById(id);
-		return ou;
+	public List<User> ffdd(@RequestParam("nnn") String username) {
+		
+		QUser qUser = QUser.user;
+
+		return queryFactory.selectFrom(qUser)
+				.where(qUser.username.eq(username))
+				.fetch();
 	}
 }
