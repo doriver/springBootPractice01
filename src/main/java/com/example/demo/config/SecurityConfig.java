@@ -7,31 +7,21 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.example.demo.security.CustomAuthenticationSuccessHandler;
+import com.example.demo.security.CustomUserDetailsService;
+
+import lombok.RequiredArgsConstructor;
+
 @Configuration
-@EnableWebSecurity // Spring Security를 활성화함  
+@EnableWebSecurity // Spring Security를 활성화함
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-	/* 
-	 * 구버전에선 AuthenticationManagerBuilder auth , auth.inMemoryAuthentication() ~ 였음
-	 * 메모리 내 인증을 사용 + 'user'라는 사용자와 '1111'라는 비밀번호를 가진 사용자 추가
-	 * 
-	 * UserDetailsService의 구현체 InMemoryUserDetailsManager를 스프링빈 등록
-	 * User로 UserDetails을 빌드해서 InMemoryUserDetailsManager에 담음
-	 */
-	@Bean
-	public UserDetailsService userDetailsService() {
-		UserDetails user =
-			 User.withDefaultPasswordEncoder()
-				.username("user")
-				.password("1111")
-				.roles("USER")
-				.build();
-
-		return new InMemoryUserDetailsManager(user);
-	}
+	private final CustomUserDetailsService userDetailsService;
 
 	/*
 	 * HttpSecurity에서 빌드해서 SecurityFilterChain스프링빈으로 등록해줌
@@ -47,7 +37,8 @@ public class SecurityConfig {
 				.loginPage("/plogin")
 				.permitAll()
 				.loginProcessingUrl("/login")
-                .defaultSuccessUrl("/suc")
+//                .defaultSuccessUrl("/suc") // successHandler() 넣어주면 defaultSuccessUrl없애고 AuthenticationSuccessHandler여기에서 response.sendRedirect("/suc"); 추가해줘야함
+				.successHandler(new CustomAuthenticationSuccessHandler()) // AuthenticationSuccessHandler 사용할수 있게 등록
 			)           
         	.logout((logout) -> logout
         			.logoutUrl("/custom-logout")  // 로그아웃 URL을 변경합니다.
@@ -58,4 +49,10 @@ public class SecurityConfig {
      
         return http.build();
 	}
+	
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
 }
