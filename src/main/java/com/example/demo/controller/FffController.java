@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.demo.entity.QUser;
+//import com.example.demo.entity.QUser;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -31,9 +31,9 @@ public class FffController {
 	@GetMapping("/save")
 	@ResponseBody
 	public User ssvv(@RequestParam("un") String userName, @RequestParam("em") String email) {
-		User us = new User();
-		us.setUsername(userName);
-		us.setEmail(email);
+		User us = User.builder()
+				.username(userName).email(email)
+				.build();
 		return userRepository.save(us);
 	}
 	
@@ -44,14 +44,14 @@ public class FffController {
 //		return ou;
 //	}
 
-	@GetMapping("/qdfind")
-	@ResponseBody
-	public List<User> ffdd(@RequestParam("nnn") String username) {
-		
-		QUser qUser = QUser.user;
-
-		return queryFactory.selectFrom(qUser)
-				.where(qUser.username.eq(username))
-				.fetch();
-	}
+//	@GetMapping("/qdfind")
+//	@ResponseBody
+//	public List<User> ffdd(@RequestParam("nnn") String username) {
+//		
+//		QUser qUser = QUser.user;
+//
+//		return queryFactory.selectFrom(qUser)
+//				.where(qUser.username.eq(username))
+//				.fetch();
+//	}
 }
