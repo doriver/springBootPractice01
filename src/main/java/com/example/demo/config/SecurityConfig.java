@@ -23,6 +23,13 @@ public class SecurityConfig {
 
 	private final CustomUserDetailsService userDetailsService;
 
+//  @Bean
+//  public WebSecurityCustomizer webSecurityCustomizer() { // 이걸로 했을때 권장하지 않는다고 했었음 콘솔창에서
+//      return (web) -> web
+//              .ignoring().antMatchers();
+//  }
+	
+	
 	/*
 	 * HttpSecurity에서 빌드해서 SecurityFilterChain스프링빈으로 등록해줌
 	 */
@@ -32,6 +39,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests((requests) -> requests
 				.requestMatchers("/").permitAll()
 				.anyRequest().authenticated()
+//				.anyRequest().permitAll()
 			)  
         	.formLogin((form) -> form
 				.loginPage("/plogin")
