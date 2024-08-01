@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/c01")
+//@RequestMapping("/c01")
 @Slf4j
 public class Controller01 {
 	
-	@GetMapping("/first")
+	@GetMapping("/cfirst")
 	public String first(Model model) {
 		model.addAttribute("message","Model addAttribute");
 		return "first";

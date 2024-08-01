@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/rc01")
+//@RequestMapping("/rc01")
 @Slf4j
 public class RestController01 {
 	
-	@GetMapping("/rrss")
+	@GetMapping("/rcss")
 	public String sdf() {
 		return "asdjflajdfl";
 	} // 이렇게 하면 그냥 화면이 String값만을 보여줘버림
