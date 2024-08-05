@@ -3,9 +3,9 @@ package com.example.demo.security;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
-import com.example.demo.domain.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -15,11 +15,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+		
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		 
+		
 		User user = new User(); // username으로 DB에서 조회해 와야함
 		user.setUsername(username);
 		user.setAge(31);
-		user.setPassword("1111");
-		
+		user.setPassword(passwordEncoder.encode("2222"));
+
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found");
 		}

@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.demo.domain.User;
 
 /* UserDetails
  * 내가 정의한 User의 값들 get메소드만 있음
@@ -25,7 +24,9 @@ public class CustomUserDetails implements UserDetails {
     
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return user.getAuthorities();
+
+		return null;
+
 	}
 
 	@Override
