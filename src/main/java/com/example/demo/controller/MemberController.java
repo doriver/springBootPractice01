@@ -1,4 +1,4 @@
-package com.example.demo.member;
+package com.example.demo.controller;
 
 import java.util.List;
 
@@ -6,6 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.member.MemberRequestDto;
+import com.example.demo.member.MemberResponseDto;
+import com.example.demo.member.MemberService;
+import com.example.demo.member.MemberRequestDto.CreateDto;
+import com.example.demo.member.MemberResponseDto.ListDto;
 
 import lombok.RequiredArgsConstructor;
 
