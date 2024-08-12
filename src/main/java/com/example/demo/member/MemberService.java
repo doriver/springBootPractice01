@@ -2,8 +2,10 @@ package com.example.demo.member;
 
 import java.util.List;
 
+import com.example.demo.entity.Member;
+
 public interface MemberService {
 
 	List<MemberResponseDto.ListDto> findAll();
-	Long createMember(String name, int age);
+	Member createMember(String name, int age);
 }

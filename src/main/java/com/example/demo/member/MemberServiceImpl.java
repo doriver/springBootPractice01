@@ -26,7 +26,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public Long createMember(String name, int age) {
+	public Member createMember(String name, int age) {
 
 		memberRepository.findByName(name).ifPresent(a -> {
 			throw new IllegalStateException("이미 있는 아이디");
@@ -35,7 +35,7 @@ public class MemberServiceImpl implements MemberService{
 		Member member = Member.builder()
 							.age(age).name(name).build();
 		
-		return memberRepository.save(member).getId();
+		return memberRepository.save(member);
 	}
 	
 	

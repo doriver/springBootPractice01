@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.entity.Member;
 import com.example.demo.member.MemberRequestDto;
 import com.example.demo.member.MemberResponseDto;
 import com.example.demo.member.MemberService;
@@ -28,6 +29,7 @@ public class MemberController {
 	
 	@PostMapping("/members")
 	public Long createMember(@RequestBody MemberRequestDto.CreateDto createDto) {
-		return memberService.createMember(createDto.getName(), createDto.getAge());
+		Member m = memberService.createMember(createDto.getName(), createDto.getAge()); 
+		return m.getId();
 	}
 }
