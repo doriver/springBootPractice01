@@ -38,7 +38,9 @@ public class MemberServiceTest {
 		// given		
 			// 가짜 객체의 로직에대해, 응답을 정의
 		Mockito.when(memberRepository.save(Mockito.any(Member.class)))
-				.thenAnswer(i -> i.getArguments()[0]); // 뭔진 모름, 구글링해서 테스트 해봤는데 됐음 
+				.thenAnswer(i -> i.getArguments()[0]); // 뭔진 모름, 구글링해서 테스트 해봤는데 됐음
+		// now you can obtain 객체 which you pass as argument.
+		
 		// 테스트 해본거
 //		Member member3 = Member.builder().name("hi3").age(10).build();
 //		Member m = memberRepository.save(member3);
