@@ -36,8 +36,7 @@ public class MemberServiceTest {
 	@DisplayName("멤버 생성 성공")
 	void createMemberSuccess() {
 		// given		
-			// 가짜 객체의 로직에대해, 응답을 정의
-		Mockito.when(memberRepository.save(Mockito.any(Member.class)))
+		Mockito.when(memberRepository.save(Mockito.any(Member.class))) // 가짜 객체의 로직에대해, 응답을 정의
 				.thenAnswer(i -> i.getArguments()[0]); // 뭔진 모름, 구글링해서 테스트 해봤는데 됐음
 		// now you can obtain 객체 which you pass as argument.
 		
@@ -62,7 +61,7 @@ public class MemberServiceTest {
 		
 		// when, then
 		assertThatThrownBy(() -> memberService.createMember("hi1", 10))
-							.isInstanceOf(IllegalStateException.class);
+			.isInstanceOf(IllegalStateException.class);
 			// assertThatThrownBy는 예외 발생을 검증하는 메서드
 			// asserThatThrownBy(() -> 예외를 발생시킬 로직).isInstanceOf(예외 클래스)
 	}
@@ -76,6 +75,6 @@ public class MemberServiceTest {
 		
 		// when, then
 		assertThatThrownBy(() -> memberService.createMember("hi2", 10))
-		.isInstanceOf(IllegalStateException.class);
+			.isInstanceOf(IllegalStateException.class);
 	}
 }
