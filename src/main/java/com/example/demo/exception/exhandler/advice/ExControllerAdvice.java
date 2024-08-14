@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.demo.exception.UserException;
+import com.example.demo.exception.api.ApiExceptionV2Controller;
 import com.example.demo.exception.exhandler.ErrorResult;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RestControllerAdvice("com.example.demo.exception.api")
+@RestControllerAdvice(assignableTypes = ApiExceptionV2Controller.class) // 특정 클래스 지정
+//@RestControllerAdvice("com.example.demo.exception.api") // 패키지 지정
 public class ExControllerAdvice {
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
