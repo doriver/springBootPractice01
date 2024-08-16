@@ -22,19 +22,21 @@
         <h2 th:text="#{page.addItem}">상품 등록</h2>
     </div>
 
-    <form action="item.html" th:action th:object="${item}" method="post">
+    <form th:action="@{/validation/v3/items/add}" th:object="${item}" method="post">
 
-        <div th:if="${#fields.hasGlobalErrors()}">
+		<div th:if="${#fields.hasGlobalErrors()}">
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
         </div>
 
         <div>
-            <label for="itemName" th:text="#{label.item.itemName}">상품명</label>
+            <label for="itemName" th:text="#{label.item.itemName}">상품명</label> <!-- #{~}는 메시지 표현식으로, Spring의 messages.properties 파일에서 정의된 메시지를 가져올 때 사용 -->
             <input type="text" id="itemName" th:field="*{itemName}"
                    th:errorclass="field-error" class="form-control" placeholder="이름을 입력하세요">
+                   <!-- th:field="*{~}"는 타임리프에서 HTML폼 필드와 백엔드 모델 객체의 속성을 연결하는 데 사용 -->
+                   <!-- *{itemName}: 현재 바인딩된 모델 객체(th:object로 지정된 객체)의 itemName속성을 참조 -->
             <div class="field-error" th:errors="*{itemName}">
                 상품명 오류
-            </div>
+            </div>  <!-- th:errors="*{price}" 폼 필드의 유효성 검사 에러 메시지를 표시하기 위해 사용 -->
         </div>
         <div>
             <label for="price" th:text="#{label.item.price}">가격</label>
