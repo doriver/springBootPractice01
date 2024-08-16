@@ -1,4 +1,4 @@
-package com.example.demo.validation;
+package com.example.demo.validation.domain.item;
 
 import org.hibernate.validator.constraints.Range;
 
