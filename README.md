@@ -8,6 +8,7 @@
   * ApiExceptionV2Controller.java : 위 exhandler페키지에서 구현한것에 적용 받음
  
 ## BeanValidation
+[src/main/java/com/example/demo/validation](https://github.com/doriver/ThymeleafController/tree/master/src/main/java/com/example/demo/validation)
 * @Controller에서 BeanValidation오류처리
   * 매개변수( @Validated, @ModelAttribute, BindingResult ) + 데이터객체( @NotBlank, @NotNull, @Range ... ) + 타임리프( th:object="", th:field="", th:errors="" )
   * ValidationItemController.java
