@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestControllerAdvice(assignableTypes = ApiExceptionV2Controller.class) // 특정 클래스 지정
+//@RestControllerAdvice
 //@RestControllerAdvice("com.example.demo.exception.api") // 패키지 지정
 public class ExControllerAdvice {
 	
