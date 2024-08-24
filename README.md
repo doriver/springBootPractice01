@@ -13,6 +13,9 @@
 * API에서( @RestController + @RequestBody ) BeanValidation
   * 매개변수( @Validated, @RequestBody, BindingResult ) + 데이터객체( @NotBlank, @NotNull, @Range ... )
   * ValidationItemApiController.java
+## HandlerMethodArgumentResolver구현해서, 컨트롤러 메서드 custom파라미터 만들기
+* [ ~ /argumentResolver](https://github.com/doriver/ControllerThymeleaf/tree/master/src/main/java/com/example/demo/argumentResolver) 이제 시작 단계
+  * 컨트롤러 메서드에서 UserInfo객체를 인자로 받아 사용 
 ## Controller에서 return값 테스트
 * [ ~ /controller/response/body](https://github.com/doriver/ThymeleafController/tree/master/src/main/java/com/example/demo/controller/response/body) : ResponseBody에서 return값이 String, Map, List, 객체class 등등 일때
 * [ ~ /controller/response/entity](https://github.com/doriver/ThymeleafController/tree/master/src/main/java/com/example/demo/controller/response/entity) : return값이 ResponseEntity일때
