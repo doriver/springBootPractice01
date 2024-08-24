@@ -1,5 +1,8 @@
 * form제출 + controller     
-* Ajax통신 + controller  
+* Ajax통신 + controller
+## Controller에서 return값 테스트
+* [src/main/java/com/example/demo/controller/response/body](https://github.com/doriver/ThymeleafController/tree/master/src/main/java/com/example/demo/controller/response/body) : ResponseBody에서 return값이 String, Map, List, 객체class 등등 일때
+* [src/main/java/com/example/demo/controller/response/entity](https://github.com/doriver/ThymeleafController/tree/master/src/main/java/com/example/demo/controller/response/entity) : return값이 ResponseEntity일때
 ## SpringBoot 예외처리 구현
 * [src/main/java/com/example/demo/exception/exhandler](https://github.com/doriver/ThymeleafController/tree/master/src/main/java/com/example/demo/exception/exhandler
 ) 에 @ControllerAdvice + @ExceptionHandler 로 api의 예외처리가 커스텀 되있음
