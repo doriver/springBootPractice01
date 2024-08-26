@@ -13,7 +13,6 @@ import lombok.Setter;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter // 일반적으로 없는게 좋음, 여기선 편의상 그냥 놔둠
 public class User {
 	
 	@Id
@@ -27,6 +26,10 @@ public class User {
 	@Builder
 	public User(String username, String email) {
 		this.username = username;
+		this.email = email;
+	}
+	
+	public void changeEmail(String email) {
 		this.email = email;
 	}
 }
