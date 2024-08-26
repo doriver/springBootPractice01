@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 //import com.example.demo.entity.QUser;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 public class FffController {
 	
 	private final UserRepository userRepository; 
-	private final JPAQueryFactory queryFactory;
 	
 	@GetMapping("/view")
 	public String vv() {
