@@ -5,11 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.exception.UserException;
 import com.example.demo.exception.api.ApiExceptionV2Controller;
 import com.example.demo.exception.exhandler.ErrorResult;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,9 +22,20 @@ public class ExControllerAdvice {
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(IllegalArgumentException.class)
-	public ErrorResult illegalExHandler(IllegalArgumentException e) {
+	public Object illegalExHandler(IllegalArgumentException e, HttpServletRequest request) {
 		log.error("[exceptionHandler] ex", e);
-		return new ErrorResult("BAD", e.getMessage());
+		
+		String acceptHeader = request.getHeader("Accept");
+		
+		// Accept: text/html 요청에 대해 HTML 응답
+        if (acceptHeader != null && acceptHeader.contains("text/html")) {
+            ModelAndView mav = new ModelAndView("first");
+            mav.addObject("message", e.getMessage());
+            return mav;
+        }
+		
+        // 그 외의 경우 JSON 응답 , @ResponseStatus(HttpStatus.BAD_REQUEST) 있어서 responseEntity안씀
+        return new ErrorResult("BAD", e.getMessage());
 	}
 	
 	@ExceptionHandler
