@@ -25,6 +25,11 @@ public class Controller01 {
 		return "first";
 	}
 
+	@GetMapping("/exception/test")
+	public String eett01() {
+		return "exceptionTest01";
+	}
+
 	/**
 	 * 데이터를 반환
 	 */

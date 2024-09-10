@@ -48,7 +48,7 @@ public class ExControllerAdvice {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler
 	public ErrorResult exHandler(Exception e) {
-		log.error("[exceptionHandler] ex", e);
+		log.error("[exceptionHandler] ex", e); // 이게 필요하군
 		return new ErrorResult("EX", "내부오류");
 	}
 }
