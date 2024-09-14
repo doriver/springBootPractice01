@@ -34,7 +34,15 @@
 						
 						let response = xhr.responseJSON;
 						console.log(response);
-						alert("RKSK \n"+response.message);
+						
+						if (response.status == "error") {
+							alert("error발생 \n"+response.message);
+						} else if (response.status == "fail") {
+							alert("fail함 \n"+response.message);
+						} else {
+							alert("error error error");
+						}
+						
 					}
 				});
 			}		

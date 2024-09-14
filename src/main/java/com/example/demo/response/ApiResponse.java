@@ -15,8 +15,11 @@ public class ApiResponse<T> {
 	public static <T> ApiResponse<T> success(T data) {
 		return new ApiResponse<>(SUCCESS_STATUS, data, null);
 	}
+	public static <T> ApiResponse<T> success() { // 오버로딩, 메서드이름 같고 + 매개변수 다름
+		return new ApiResponse<>(SUCCESS_STATUS, null, null);
+	}
 		
-	public static ApiResponse<?> fail(String message) {
+	public static <T> ApiResponse<T> fail(String message) {
 		return new ApiResponse<>(FAIL_STATUS, null, message);
 	}
 		
