@@ -107,11 +107,11 @@ label요소의 for속성과 연결되어 해당 input요소를 설명
 						
 						for (let key in res) {
 							if (key == "price") {
-								$("errorPr").text(res[key]);
+								$("#errorPr").text(res[key]);
 							} else if (key == "quantity") {
-								$("errorQu").text(res[key]);								
+								$("#errorQu").text(res[key]);								
 							} else if (key == "itemName") {
-								$("errorItn").text(res[key]);
+								$("#errorItn").text(res[key]);
 							}
 						}
 						
