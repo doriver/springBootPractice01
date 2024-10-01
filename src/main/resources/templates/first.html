@@ -65,7 +65,17 @@ label요소의 for속성과 연결되어 해당 input요소를 설명
 	<button id="bbb">ajax요청</button>
 
 
-	<button id="cc">공통js테스트</button>
+	<br><button id="cc">공통js테스트</button><br>
+	
+	아이템 이름<input type="text" id="itn"><br>
+	<small id="errorItn" class="text-danger"></small>
+	가격<input type="text" id="pr"><br>
+	<small id="errorPr" class="text-danger"></small>
+	양<input type="text" id="qu"><br>
+	<small id="errorQu" class="text-danger"></small>
+	<button id = "validation">검증</button>
+	
+	
 	<script>
 		$('#test').html('제이쿼리 테스트').css('border','1px solid blue');
 		
@@ -73,10 +83,45 @@ label요소의 for속성과 연결되어 해당 input요소를 설명
 			function() {
 				console.log("호출됨");
 				alert(errorMessage("ex"));
-				alert(errorMessage("bind"));
+				let a = errorMessage("bind");
+				alert(a);
 			}
 		);
 		
+		$("#validation").click( 
+			function(){
+				var params = {
+						"itemName": $("#itn").val(),
+						"price": $("#pr").val(),
+						"quantity": $("#qu").val()
+				}
+				
+				$.ajax({
+					type: "post",
+					url: "/validation/api/items/add",
+					data: JSON.stringify(params),
+					contentType: 'application/json;charset=utf-8',
+					success:function(res){
+						
+						console.log(res);
+						
+						for (let key in res) {
+							if (key == "price") {
+								$("errorPr").text(res[key]);
+							} else if (key == "quantity") {
+								$("errorQu").text(res[key]);								
+							} else if (key == "itemName") {
+								$("errorItn").text(res[key]);
+							}
+						}
+						
+					},
+					error:function(xhr, status, error){
+						alert(xhr.responseText);
+					}
+				});
+			}		
+		);
 		$("#bbb").click( 
 			function(){
 				var params = {
