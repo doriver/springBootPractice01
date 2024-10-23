@@ -1,3 +1,8 @@
+## JDBC로만 DB작업해보기
+[src/test/java/com/example/demo/jdbc](https://github.com/doriver/SpringJpa01/tree/master/src/test/java/com/example/demo/jdbc)     
+DriverManager > Connection > PreparedStatement     
+MySQL드라이버가 JDBC인터페이스를 구현해서 실질적으로 DB와 작업( DB와 연결, SQL전달, 결과 받기 등 )함
+
 ## SpringJPA로 CRUD
 * [~ crud/basic](https://github.com/doriver/SpringJpa01/tree/master/src/main/java/com/example/demo/crud/basic) 에 기본crud
 
