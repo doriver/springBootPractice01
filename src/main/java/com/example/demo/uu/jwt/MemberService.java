@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MemberService {
 //	private final MemberRepository memberRepository;
-//    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     
     public JwtToken signIn(String username, String password) {
@@ -24,10 +24,10 @@ public class MemberService {
     	// 2. username, password에 대한 검증, 메서드authenticate가 실행될 때 CustomUserDetailsService에서 만든 메서드loadUserByUsername 실행
     	Authentication authentication = authenticationManagerBuilder.getObject()
     												.authenticate(authenticationToken);
-    	
+    	// UsernamePasswordAuthenticationToken임 안에principal에 CustomUserDetails들어있음
     	
     	// 3. 인증 정보를 기반으로 JWT 토큰 생성
-    	JwtToken jwtToken = null;
+    	JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
     	
     	return jwtToken;
     }
