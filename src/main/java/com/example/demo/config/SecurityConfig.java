@@ -17,8 +17,8 @@ import com.example.demo.security.CustomUserDetailsService;
 
 import lombok.RequiredArgsConstructor;
 
-@Configuration
-@EnableWebSecurity // Spring Security를 활성화함
+//@Configuration
+//@EnableWebSecurity // Spring Security를 활성화함
 @RequiredArgsConstructor
 public class SecurityConfig {
 
