@@ -14,8 +14,11 @@ public class CustomUserDetails implements UserDetails {
 
 	private final User user;
 	
-	public CustomUserDetails(User user) {
+	private final Collection<GrantedAuthority> authorities;
+	
+	public CustomUserDetails(User user, Collection<GrantedAuthority> authorities) {
 		this.user = user;
+		this.authorities = authorities;
 	}
 
     public int getAge() { // 이런식으로 User정보를 이용가능
@@ -24,9 +27,7 @@ public class CustomUserDetails implements UserDetails {
     
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-
-		return null;
-
+		return authorities;
 	}
 
 	@Override
