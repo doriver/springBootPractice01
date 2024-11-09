@@ -39,4 +39,14 @@ public class MemberController {
     public String test() {
         return "success";
     }
+
+    /*
+     * 이건 의도한대로 작동
+     * Authorization헤더 추가하면 정상응답
+     * 헤더추가안하면 에러메시지 아예 없고 403상태만 있음
+     */
+    @PostMapping("/aaa")
+    public String testaa() {
+    	return "인증필요한 요청";  
+    }
 }
