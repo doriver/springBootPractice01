@@ -13,10 +13,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class CustomUserDetails implements UserDetails {
 
 	private final User user;
+
+	private final Collection<? extends GrantedAuthority> authorities;
 	
-	private final Collection<GrantedAuthority> authorities;
-	
-	public CustomUserDetails(User user, Collection<GrantedAuthority> authorities) {
+	public CustomUserDetails(User user, Collection<? extends GrantedAuthority> authorities) {
 		this.user = user;
 		this.authorities = authorities;
 	}
@@ -24,6 +24,10 @@ public class CustomUserDetails implements UserDetails {
     public int getAge() { // 이런식으로 User정보를 이용가능
         return user.getAge();
     }
+    
+	public User getUser() {
+		return user;
+	}
     
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

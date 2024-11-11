@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.security.CustomUserDetails;
+import com.example.demo.security.User;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,8 +35,7 @@ public class MemberController {
 //        HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.setBearerAuth(jwtToken.getAccessToken());
         
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        CustomUserDetails userDetail = (CustomUserDetails) authentication.getPrincipal();
+
         
         
         /*ACCESS TOKEN 쿠키로 발급*/
@@ -52,8 +52,11 @@ public class MemberController {
     }
 
     @PostMapping("/test")
-    public String test() {
-        return "success";
+    public User test() {
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	CustomUserDetails userDetail = (CustomUserDetails) authentication.getPrincipal();
+    	
+        return userDetail.getUser();
     }
 
     /*
