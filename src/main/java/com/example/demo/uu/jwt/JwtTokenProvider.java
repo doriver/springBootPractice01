@@ -4,6 +4,7 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,8 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtTokenProvider {
 	
     private final Key key;
+    
+    public static Map<String, String> redis = new HashMap<>();
 
     // application.yml에서 secret값 가져와서 key에 저장
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
@@ -81,6 +84,32 @@ public class JwtTokenProvider {
                 .build();
     }
     
+    // 토큰 재생성
+    public JwtToken reGenToken(String authorities, User userInfo, String sub) {
+    		
+    	
+    	long now = (new Date()).getTime();
+    	
+    	String accessToken = Jwts.builder()
+    			.setSubject(sub)
+    			.claim("auth", authorities)
+    			.claim("info", userInfo)
+    			.setExpiration(new Date(now + 30 * 6000 ))
+    			.signWith(key, SignatureAlgorithm.HS256)
+    			.compact();
+    	
+    	String refreshToken = Jwts.builder()
+    			.setExpiration(new Date(now + 300 * 6000))
+    			.signWith(key, SignatureAlgorithm.HS256)
+    			.compact();
+    	
+    	return JwtToken.builder()
+    			.grantType("Bearer")
+    			.accessToken(accessToken)
+    			.refreshToken(refreshToken)
+    			.build();
+    }
+    
     // Jwt 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     public Authentication getAuthentication(String accessToken) {
         // Jwt 토큰 복호화
@@ -106,7 +135,7 @@ public class JwtTokenProvider {
     }
 
     // 토큰 정보를 검증하는 메서드
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token, Boolean expiration) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(key)
@@ -116,6 +145,7 @@ public class JwtTokenProvider {
         } catch (SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
         } catch (ExpiredJwtException e) {
+        	expiration = true;
             log.info("Expired JWT Token", e);
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
@@ -138,5 +168,16 @@ public class JwtTokenProvider {
         }
     }
     
-    
+    // 테스트용 ex01
+    public boolean valiToken() {
+    	
+    	long now = (new Date()).getTime();
+    	
+    	String refreshToken = Jwts.builder()
+                .setExpiration(new Date(now))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    	return true; // 임시로 아래 메서드 조금 수정됨
+//    	return validateToken(refreshToken); // Expired JWT Token
+    }
 }

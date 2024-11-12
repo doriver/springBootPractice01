@@ -42,11 +42,29 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
              }
 		}
 		
-		// 유효한 토큰인경우 해당 토큰의 인증 정보(Authentication)를 SecurityContext에 저장
-        if (token != null && jwtTokenProvider.validateToken(token)) {
+		Boolean accessTokenExpiration = null;
+		
+		// 유효한 토큰인경우 인증권한 설정해 필터에의해 판단되도록함 , 토큰의 인증정보(Authentication)를 SecurityContext에 저장
+        if (token != null && jwtTokenProvider.validateToken(token, accessTokenExpiration)) {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+        
+        // AccessToken이 만료된경우, RefreshToken확인해서 재발급 or 다시 로그인하라고 요청
+        if (accessTokenExpiration) {
+        	String refreshToken = JwtTokenProvider.redis.get(token);
+        	Boolean refreshTokenExpiration = null;
+        	
+        	jwtTokenProvider.validateToken(refreshToken, refreshTokenExpiration);
+        	
+        	// RefreshToken이 만료된경우 다시 로그인하도록
+        	if (refreshTokenExpiration) {
+        		
+        	}
+        	
+        	// 재발급하는 로직
+        }
+        
 		
 		chain.doFilter(request, response);
 	}

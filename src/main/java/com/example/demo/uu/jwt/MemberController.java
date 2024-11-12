@@ -3,6 +3,7 @@ package com.example.demo.uu.jwt;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +36,7 @@ public class MemberController {
 //        HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.setBearerAuth(jwtToken.getAccessToken());
         
-
-        
+        JwtTokenProvider.redis.put(jwtToken.getAccessToken(), jwtToken.getRefreshToken());
         
         /*ACCESS TOKEN 쿠키로 발급*/
         Cookie accessCookie = new Cookie("Authorization", jwtToken.getAccessToken());
@@ -68,4 +68,6 @@ public class MemberController {
     public String testaa() {
     	return "인증필요한 요청";  
     }
+    
+
 }
