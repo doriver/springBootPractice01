@@ -85,7 +85,7 @@ public class JwtTokenProvider {
     }
     
     // 토큰 재생성
-    public JwtToken reGenToken(String authorities, User userInfo, String sub) {
+    public JwtToken reGenToken(String authorities, Map<String, Object> userInfo, String sub) {
     		
     	
     	long now = (new Date()).getTime();
@@ -118,7 +118,7 @@ public class JwtTokenProvider {
         if (claims.get("auth") == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
-
+        
         // 클레임에서 권한 정보 가져오기
         Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get("auth").toString().split(","))
                 .map(SimpleGrantedAuthority::new)
@@ -156,7 +156,7 @@ public class JwtTokenProvider {
     }
 
     // accessToken
-    private Claims parseClaims(String accessToken) {
+    public Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder()
                     .setSigningKey(key)

@@ -1,18 +1,21 @@
 package com.example.demo.uu.jwt;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -24,7 +27,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
-		String token = null;
+		String accessToken = null;
 		// 요청Header에서 JWT 토큰 추출
 //		String token = resolveToken((HttpServletRequest) request);
 
@@ -36,36 +39,52 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 			 for (Cookie cookie : cookies) {
 				 String name = cookie.getName(); // 쿠키 이름 가져오기
                  if (name.equals("Authorization")) {
-                	 token = cookie.getValue(); // 쿠키 값 가져오기
+                	 accessToken = cookie.getValue(); // 쿠키 값 가져오기
                 	 break;
                  }
              }
 		}
 		
-		Boolean accessTokenExpiration = null;
+		Boolean accessTokenExpiration = false;
 		
 		// 유효한 토큰인경우 인증권한 설정해 필터에의해 판단되도록함 , 토큰의 인증정보(Authentication)를 SecurityContext에 저장
-        if (token != null && jwtTokenProvider.validateToken(token, accessTokenExpiration)) {
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        if (accessToken != null && jwtTokenProvider.validateToken(accessToken, accessTokenExpiration)) {
+            Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         
         // AccessToken이 만료된경우, RefreshToken확인해서 재발급 or 다시 로그인하라고 요청
         if (accessTokenExpiration) {
-        	String refreshToken = JwtTokenProvider.redis.get(token);
-        	Boolean refreshTokenExpiration = null;
+        	String refreshToken = JwtTokenProvider.redis.get(accessToken);
+        	Boolean refreshTokenExpiration = false;
         	
         	jwtTokenProvider.validateToken(refreshToken, refreshTokenExpiration);
         	
-        	// RefreshToken이 만료된경우 다시 로그인하도록
-        	if (refreshTokenExpiration) {
+        	// RefreshToken이 만료 안된경우 토큰 재발급
+        	if (!refreshTokenExpiration) {
         		
+            	// Jwt 토큰 복호화
+                Claims claims = jwtTokenProvider.parseClaims(accessToken);
+            	
+            	JwtToken jwtToken = jwtTokenProvider.reGenToken(
+            			claims.get("auth").toString(), (Map<String, Object>)(claims.get("info")), claims.getSubject());
+            	
+            	accessToken = jwtToken.getAccessToken();
+            	JwtTokenProvider.redis.put(accessToken, jwtToken.getRefreshToken());
+            	
+            	HttpServletResponse httpResponse = (HttpServletResponse)response;
+            	
+            	Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            	
+                Cookie accessCookie = new Cookie("Authorization", accessToken);
+                httpResponse.addCookie(accessCookie);
         	}
         	
-        	// 재발급하는 로직
+        	// RefreshToken이 만료된 경우는 SecurityContext에 Authentication를 안넣어 securityFilter에 의해 자동으로 걸러짐
+     
         }
         
-		
 		chain.doFilter(request, response);
 	}
 	
