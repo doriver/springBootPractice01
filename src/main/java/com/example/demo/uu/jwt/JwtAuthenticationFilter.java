@@ -1,6 +1,7 @@
 package com.example.demo.uu.jwt;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.security.core.Authentication;
@@ -17,7 +18,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
 	
@@ -45,24 +48,25 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
              }
 		}
 		
-		Boolean accessTokenExpiration = false;
+		Map<String, Boolean> expiration = new HashMap<>();
+		expiration.put("token", false);
 		
 		// 유효한 토큰인경우 인증권한 설정해 필터에의해 판단되도록함 , 토큰의 인증정보(Authentication)를 SecurityContext에 저장
-        if (accessToken != null && jwtTokenProvider.validateToken(accessToken, accessTokenExpiration)) {
+        if (accessToken != null && jwtTokenProvider.validateToken(accessToken, expiration)) {
             Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         
         // AccessToken이 만료된경우, RefreshToken확인해서 재발급 or 다시 로그인하라고 요청
-        if (accessTokenExpiration) {
+        if (expiration.get("token")) {
         	String refreshToken = JwtTokenProvider.redis.get(accessToken);
-        	Boolean refreshTokenExpiration = false;
+        
+        	expiration.put("token", false);
+        	jwtTokenProvider.validateToken(refreshToken, expiration);
         	
-        	jwtTokenProvider.validateToken(refreshToken, refreshTokenExpiration);
-        	
-        	// RefreshToken이 만료 안된경우 토큰 재발급
-        	if (!refreshTokenExpiration) {
-        		
+        	// RefreshToken이 만료 안된경우
+        	// 토큰 재발급 , SecurityContext에 토큰의 정보로 만든Authentication를 넣어 securityFilter들 통과후 요청 정상처리 , 레디스에 다시 저장, 쿠키로access전달 
+        	if (!expiration.get("token")) {
             	// Jwt 토큰 복호화
                 Claims claims = jwtTokenProvider.parseClaims(accessToken);
             	
@@ -70,6 +74,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             			claims.get("auth").toString(), (Map<String, Object>)(claims.get("info")), claims.getSubject());
             	
             	accessToken = jwtToken.getAccessToken();
+            	log.info("reGen jwtToken accessToken = {}, refreshToken = {}", accessToken, jwtToken.getRefreshToken());
+            	
             	JwtTokenProvider.redis.put(accessToken, jwtToken.getRefreshToken());
             	
             	HttpServletResponse httpResponse = (HttpServletResponse)response;
@@ -81,8 +87,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 httpResponse.addCookie(accessCookie);
         	}
         	
-        	// RefreshToken이 만료된 경우는 SecurityContext에 Authentication를 안넣어 securityFilter에 의해 자동으로 걸러짐
-     
+        	// RefreshToken이 만료된 경우는 SecurityContext에 Authentication를 안넣어 securityFilter에 의해 자동으로 걸러짐     
         }
         
 		chain.doFilter(request, response);

@@ -61,19 +61,18 @@ public class JwtTokenProvider {
         
         long now = (new Date()).getTime();
 
-        // Access Token 생성, 뭘까?
-        Date accessTokenExpiresIn = new Date(now + 86400000);
+        // Access Token 생성
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
                 .claim("info", userInfo)
-                .setExpiration(accessTokenExpiresIn)
+                .setExpiration(new Date(now + 1 * 60000))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         // Refresh Token 생성, 뭘까?
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 86400000))
+                .setExpiration(new Date(now + 1 * 60000))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
@@ -135,7 +134,7 @@ public class JwtTokenProvider {
     }
 
     // 토큰 정보를 검증하는 메서드
-    public boolean validateToken(String token, Boolean expiration) {
+    public boolean validateToken(String token, Map<String, Boolean> expiration) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(key)
@@ -145,7 +144,7 @@ public class JwtTokenProvider {
         } catch (SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
         } catch (ExpiredJwtException e) {
-        	expiration = true;
+        	expiration.put("token", true);
             log.info("Expired JWT Token", e);
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);

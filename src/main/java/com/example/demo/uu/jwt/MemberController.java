@@ -40,7 +40,7 @@ public class MemberController {
         
         /*ACCESS TOKEN 쿠키로 발급*/
         Cookie accessCookie = new Cookie("Authorization", jwtToken.getAccessToken());
-        accessCookie.setMaxAge(60 * 10); // 10분 동안 유효
+//        accessCookie.setMaxAge(60 * 10); // 10분 동안 유효
 //        accessCookie.setPath("/");
 //        accessCookie.setDomain("localhost");
 //        accessCookie.setSecure(false);
@@ -67,6 +67,11 @@ public class MemberController {
     @PostMapping("/aaa")
     public String testaa() {
     	return "인증필요한 요청";  
+    }
+
+    @PostMapping("/bbb")
+    public String tebbaa() {
+    	return "인증+권한 필요한 요청";  
     }
     
 
