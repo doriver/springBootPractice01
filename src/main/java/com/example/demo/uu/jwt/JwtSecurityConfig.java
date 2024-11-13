@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.example.demo.redis.RedisRepo;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class JwtSecurityConfig {
 
 	private final JwtTokenProvider jwtTokenProvider;
+	private final RedisRepo redisRepo;
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -39,7 +42,7 @@ public class JwtSecurityConfig {
 	        )
         
 	        // JWT 인증을 위하여 직접 구현한 필터를 UsernamePasswordAuthenticationFilter 전에 실행
-	        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider)
+	        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisRepo)
 	        		, UsernamePasswordAuthenticationFilter.class);
         
         return http.build();

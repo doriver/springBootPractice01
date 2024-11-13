@@ -1,5 +1,7 @@
 package com.example.demo.uu.jwt;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.redis.RedisRepo;
 import com.example.demo.security.CustomUserDetails;
 import com.example.demo.security.User;
 
@@ -24,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	
 	private final MemberService memberService;
+	private final RedisRepo redisRepo;
 
     @PostMapping("/sign-in")
     public String signIn(@RequestBody SignInDto signInDto, HttpServletResponse response) {
@@ -36,7 +40,11 @@ public class MemberController {
 //        HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.setBearerAuth(jwtToken.getAccessToken());
         
-        JwtTokenProvider.redis.put(jwtToken.getAccessToken(), jwtToken.getRefreshToken());
+        
+        redisRepo.saveWithTTL(
+        		jwtToken.getAccessToken(), jwtToken.getRefreshToken()
+        		, 1, TimeUnit.MINUTES);
+//        JwtTokenProvider.redis.put(jwtToken.getAccessToken(), jwtToken.getRefreshToken());
         
         /*ACCESS TOKEN 쿠키로 발급*/
         Cookie accessCookie = new Cookie("Authorization", jwtToken.getAccessToken());

@@ -3,11 +3,14 @@ package com.example.demo.uu.jwt;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
+
+import com.example.demo.redis.RedisRepo;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -25,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtAuthenticationFilter extends GenericFilterBean {
 	
 	private final JwtTokenProvider jwtTokenProvider;
+	private final RedisRepo redisRepo;
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -68,8 +72,9 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
          * RefreshToken확인해서 재발급 or 다시 로그인하라고 요청
          */
         if (isExpiration.get("token")) {
-        	String refreshToken = JwtTokenProvider.redis.get(accessToken);
-        
+//        	String refreshToken = JwtTokenProvider.redis.get(accessToken);
+        	String refreshToken = redisRepo.get(accessToken);
+        	
         	isExpiration.put("token", false);
         	jwtTokenProvider.validateToken(refreshToken, isExpiration);
         	
@@ -85,7 +90,10 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             	accessToken = jwtToken.getAccessToken();
             	log.info("reGen jwtToken accessToken = {}, refreshToken = {}", accessToken, jwtToken.getRefreshToken());
             	
-            	JwtTokenProvider.redis.put(accessToken, jwtToken.getRefreshToken());
+            	redisRepo.saveWithTTL(
+            			accessToken, jwtToken.getRefreshToken()
+                		, 1, TimeUnit.MINUTES);
+//            	JwtTokenProvider.redis.put(accessToken, jwtToken.getRefreshToken());
             	
             	HttpServletResponse httpResponse = (HttpServletResponse)response;
             	

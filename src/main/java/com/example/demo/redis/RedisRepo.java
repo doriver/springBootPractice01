@@ -1,5 +1,7 @@
 package com.example.demo.redis;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -21,6 +23,14 @@ public class RedisRepo {
 	public void save(String key, String value) {
 		redisTemplate.opsForValue().set(key, value); 
 	}
+	
+	
+    public void saveWithTTL(String key, Object value, long ttl, TimeUnit timeUnit) {
+      
+        redisTemplate.opsForValue().set(key, value);     
+        // TTL을 설정 , TimeUnit.SECONDS, TimeUnit.MINUTES
+        redisTemplate.expire(key, ttl, timeUnit);
+    }
 	
 	// get : key에 해당하는 value값 얻음
 	public String get(String key) {
