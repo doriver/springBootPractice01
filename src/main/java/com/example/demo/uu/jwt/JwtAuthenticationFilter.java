@@ -31,10 +31,13 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 			throws IOException, ServletException {
 		
 		String accessToken = null;
-		// 요청Header에서 JWT 토큰 추출
+		/*
+		 * 요청Header에서 Access JWT추출
+		 * 일단 Cookie로 함
+		 */
 //		String token = resolveToken((HttpServletRequest) request);
 
-		// 일단 Cookie로 한거 , 컨트롤러 메서드 파라미터에선 간단히 @CookieValue(name="memberId", required=false) Long memberId 이런식으로 하면되는데
+		// 컨트롤러 메서드 파라미터에선 간단히 @CookieValue(name="memberId", required=false) Long memberId 이런식으로 하면되는데
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		
 		Cookie[] cookies = httpRequest.getCookies(); // 모든 쿠키 가져오기
@@ -48,25 +51,31 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
              }
 		}
 		
-		Map<String, Boolean> expiration = new HashMap<>();
-		expiration.put("token", false);
+		Map<String, Boolean> isExpiration = new HashMap<>();
+		isExpiration.put("token", false);
 		
-		// 유효한 토큰인경우 인증권한 설정해 필터에의해 판단되도록함 , 토큰의 인증정보(Authentication)를 SecurityContext에 저장
-        if (accessToken != null && jwtTokenProvider.validateToken(accessToken, expiration)) {
+		/*
+		 * AccessToken이 유효할떄, 인증권한 설정해 필터에의해 판단되도록함
+		 * 토큰의 인증정보(Authentication)를 SecurityContext에 저장
+		 */
+        if (accessToken != null && jwtTokenProvider.validateToken(accessToken, isExpiration)) {
             Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         
-        // AccessToken이 만료된경우, RefreshToken확인해서 재발급 or 다시 로그인하라고 요청
-        if (expiration.get("token")) {
+        /*
+         * AccessToken이 만료된경우
+         * RefreshToken확인해서 재발급 or 다시 로그인하라고 요청
+         */
+        if (isExpiration.get("token")) {
         	String refreshToken = JwtTokenProvider.redis.get(accessToken);
         
-        	expiration.put("token", false);
-        	jwtTokenProvider.validateToken(refreshToken, expiration);
+        	isExpiration.put("token", false);
+        	jwtTokenProvider.validateToken(refreshToken, isExpiration);
         	
         	// RefreshToken이 만료 안된경우
         	// 토큰 재발급 , SecurityContext에 토큰의 정보로 만든Authentication를 넣어 securityFilter들 통과후 요청 정상처리 , 레디스에 다시 저장, 쿠키로access전달 
-        	if (!expiration.get("token")) {
+        	if (!isExpiration.get("token")) {
             	// Jwt 토큰 복호화
                 Claims claims = jwtTokenProvider.parseClaims(accessToken);
             	
@@ -87,7 +96,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 httpResponse.addCookie(accessCookie);
         	}
         	
-        	// RefreshToken이 만료된 경우는 SecurityContext에 Authentication를 안넣어 securityFilter에 의해 자동으로 걸러짐     
+        	// RefreshToken이 만료된 경우는 securityFilter에 의해 걸러짐( SecurityContext에 Authentication를 안넣어 )     
         }
         
 		chain.doFilter(request, response);
