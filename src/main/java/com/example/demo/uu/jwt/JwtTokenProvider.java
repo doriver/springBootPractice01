@@ -66,13 +66,13 @@ public class JwtTokenProvider {
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
                 .claim("info", userInfo)
-                .setExpiration(new Date(now + 1 * 60000))
+                .setExpiration(new Date(now + 2 * 60000))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         // Refresh Token 생성, 뭘까?
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 1 * 60000))
+                .setExpiration(new Date(now + 2 * 60000))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
@@ -93,12 +93,12 @@ public class JwtTokenProvider {
     			.setSubject(sub)
     			.claim("auth", authorities)
     			.claim("info", userInfo)
-    			.setExpiration(new Date(now + 30 * 6000 ))
+    			.setExpiration(new Date(now + 5 * 60000 ))
     			.signWith(key, SignatureAlgorithm.HS256)
     			.compact();
     	
     	String refreshToken = Jwts.builder()
-    			.setExpiration(new Date(now + 300 * 6000))
+    			.setExpiration(new Date(now + 10 * 60000))
     			.signWith(key, SignatureAlgorithm.HS256)
     			.compact();
     	

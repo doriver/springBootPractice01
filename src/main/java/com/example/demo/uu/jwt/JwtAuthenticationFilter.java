@@ -75,8 +75,10 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 //        	String refreshToken = JwtTokenProvider.redis.get(accessToken);
         	String refreshToken = redisRepo.get(accessToken);
         	
-        	isExpiration.put("token", false);
-        	jwtTokenProvider.validateToken(refreshToken, isExpiration);
+        	if (refreshToken != null) {
+        		isExpiration.put("token", false);
+        		jwtTokenProvider.validateToken(refreshToken, isExpiration);
+        	}
         	
         	// RefreshToken이 만료 안된경우
         	// 토큰 재발급 , SecurityContext에 토큰의 정보로 만든Authentication를 넣어 securityFilter들 통과후 요청 정상처리 , 레디스에 다시 저장, 쿠키로access전달 
@@ -92,7 +94,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             	
             	redisRepo.saveWithTTL(
             			accessToken, jwtToken.getRefreshToken()
-                		, 1, TimeUnit.MINUTES);
+                		, 10, TimeUnit.MINUTES);
 //            	JwtTokenProvider.redis.put(accessToken, jwtToken.getRefreshToken());
             	
             	HttpServletResponse httpResponse = (HttpServletResponse)response;

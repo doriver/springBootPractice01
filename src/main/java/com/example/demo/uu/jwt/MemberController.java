@@ -43,7 +43,7 @@ public class MemberController {
         
         redisRepo.saveWithTTL(
         		jwtToken.getAccessToken(), jwtToken.getRefreshToken()
-        		, 1, TimeUnit.MINUTES);
+        		, 2, TimeUnit.MINUTES);
 //        JwtTokenProvider.redis.put(jwtToken.getAccessToken(), jwtToken.getRefreshToken());
         
         /*ACCESS TOKEN 쿠키로 발급*/
