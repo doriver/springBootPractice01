@@ -48,7 +48,8 @@ public class MemberController {
         
         /*ACCESS TOKEN 쿠키로 발급*/
         Cookie accessCookie = new Cookie("Authorization", jwtToken.getAccessToken());
-//        accessCookie.setMaxAge(60 * 10); // 10분 동안 유효
+        accessCookie.setHttpOnly(true);
+        accessCookie.setMaxAge(90 * 60); // 90분 동안 유효
 //        accessCookie.setPath("/");
 //        accessCookie.setDomain("localhost");
 //        accessCookie.setSecure(false);
