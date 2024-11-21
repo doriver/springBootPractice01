@@ -75,6 +75,8 @@ label요소의 for속성과 연결되어 해당 input요소를 설명
 	<small id="errorQu" class="text-danger"></small>
 	<button id = "validation">검증</button>
 	
+	<br><br>
+	<button id="anc">비동기, 동기</button>
 	
 	<script>
 		$('#test').html('제이쿼리 테스트').css('border','1px solid blue');
@@ -86,6 +88,16 @@ label요소의 for속성과 연결되어 해당 input요소를 설명
 				let a = errorMessage("bind");
 				alert(a);
 			}
+		);
+		var aa = 3;
+		$("#anc").click(
+			function() {
+				
+				setTimeout(() => {
+			        aa = 10;
+			    }, 1000);
+				alert(aa);
+			}		
 		);
 		
 		$("#validation").click( 
