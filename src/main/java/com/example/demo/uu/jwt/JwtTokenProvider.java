@@ -13,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.security.CustomUserDetails;
@@ -39,7 +38,7 @@ public class JwtTokenProvider {
 	
     private final Key key;
     
-    public static Map<String, String> redis = new HashMap<>();
+//    public static Map<String, String> redis = new HashMap<>(); // Redis도입하기전에 임시로 했던거
 
     // application.yml에서 secret값 가져와서 key에 저장
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
