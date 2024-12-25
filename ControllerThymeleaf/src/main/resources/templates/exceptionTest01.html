@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>title</title>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+	<div id="test"></div>
+    
+    
+    id값
+    <input type="text" id="name">
+   	<button id="bbb">ajax요청</button>
+
+	<script>
+		$('#test').html('제이쿼리 테스트').css('border','1px solid blue');
+		
+		$("#bbb").click( 
+			function(){
+				var id = $("#name").val();
+				
+				$.ajax({
+					type:"get",
+					url:"/api2/members/" + id,
+				
+					success:function(res){
+						console.log(res); 
+						alert(JSON.stringify(res));
+					},
+					error:function(xhr){
+						
+						let response = xhr.responseJSON;
+						console.log(response);
+						
+						if (response.status == "error") {
+							alert("error발생 \n"+response.message);
+						} else if (response.status == "fail") {
+							alert("fail함 \n"+response.message);
+						} else {
+							alert("error error error");
+						}
+						
+					}
+				});
+			}		
+		);
+	</script>
+</body>
+</html>
