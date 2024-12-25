@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>cookie있음</title>
+<script src="/js/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+	<div id="test"></div>
+	<button id="bbb">ajax요청(쿠키 확인용)</button>
+	<button id="cc">쿠키삭제</button>
+	
+	<script>
+		$('#test').html('cookie있음').css('border','1px solid blue');
+		
+		$("#bbb").click( 
+			function(){
+				$.ajax({
+					type:"get",
+					url:"/empty",
+					success:function(res){
+						console.log(res); // 콘솔에선 JSON.stringify() 안해도 정상출력됨
+						// alert(res); // 이렇게하면  [object Object] 나옴, 아래처럼 JSON.stringify() 해줘야 정상 출력
+						alert(JSON.stringify(res));
+					},
+					error:function(xhr, status, error){
+						alert(xhr.responseText);
+					}
+				});
+			}		
+		);
+		$("#cc").click( 
+			function(){
+				$.ajax({
+					type:"get",
+					url:"/deleteCookie",
+					success:function(res){
+						//window.location.href = "/cookieView"; // 리디렉션할 URL
+					},
+					error:function(xhr, status, error){
+						
+					}
+				});
+			}		
+		);
+	</script>
+</body>
+</html>

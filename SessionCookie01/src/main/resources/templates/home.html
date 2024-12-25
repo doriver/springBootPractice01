@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>기본 홈</title>
+<script src="/js/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+	<div id="test"></div>
+	<button id="bbb" th:onclick="|location.href='@{/plogin}'|" >로그인 페이지</button>
+	<button id="cc">아직 안만듬</button>
+	
+	<script>
+		$('#test').html('홈 화면').css('border','1px solid blue');
+
+		
+		/*
+		$("#cc").click( 
+			function(){
+				$.ajax({
+					type:"get",
+					url:"/deleteCookie",
+					success:function(res){
+						//window.location.href = "/cookieView"; // 리디렉션할 URL
+					},
+					error:function(xhr, status, error){
+						
+					}
+				});
+			}		
+		);
+		*/
+	</script>
+</body>
+</html>
