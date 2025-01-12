@@ -3,5 +3,5 @@
 ## ControllerThymeleaf : 스프링MVC
 ## SpringJpa01 : 스프링JPA
 ---
-### FilterInterceptor01 : 필터와 인터셉터
-### SessionCookie : 세션과 쿠키
+### subTopic/FilterInterceptor01 : 필터와 인터셉터
+### subTopic/SessionCookie : 세션과 쿠키
