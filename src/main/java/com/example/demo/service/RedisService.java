@@ -12,14 +12,14 @@ public class RedisService {
 	private RedisTemplate<String, Object> redisTemplate;
 	
 	
-    @Cacheable(value = "getRedis", key = "#p0")
-    public String getOnCache(String key) {      
+    @Cacheable(value = "oneParam", key = "#p0")
+    public String getOnCache(String p0) {      
         int a = 0; // 디버깅용 
         return "someData";
     }
 
     @Cacheable(value = "multiParam", key = "#p0 + '_' + #p1")
-    public String get22OnCache(String key, String kk) {
+    public String get22OnCache(String p0, String p1) {
         int a = 0; // 디버깅용 
         return "multiParam someData";
     }

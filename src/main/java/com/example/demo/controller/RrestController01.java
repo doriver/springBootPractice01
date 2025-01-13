@@ -16,6 +16,19 @@ public class RrestController01 {
 
 	@Autowired
 	private RedisService redisService;
+	
+	
+	@GetMapping("/cache01")
+	public String onCache(@RequestParam("p0") String p0) {
+		return redisService.getOnCache(p0);
+	}
+	
+    @GetMapping("/cache02")
+    public String onCache222(@RequestParam("p0") String p0, @RequestParam("p1") String p1) {
+        return redisService.get22OnCache(p0, p1);
+    }
+	
+	
 	/*
 	 * Postman에서 Post요청으로 http://localhost:8080/redis/save?key=12&value=345 요청해서 성공
 	 * Query Params에 넣으면 저렇게 uri에 나옴

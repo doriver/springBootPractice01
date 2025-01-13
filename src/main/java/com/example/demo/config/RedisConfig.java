@@ -18,23 +18,30 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfig {
 
 	@Bean
-	public RedisConnectionFactory redisConnectionFactory() {
+	public RedisConnectionFactory redisConnectionFactoryDb07() {
 		RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-	    config.setDatabase(5); // 5번 DB 설정
+	    config.setDatabase(7); // 7번 DB 설정
 		return new LettuceConnectionFactory(config);
 	}
 	
 	@Bean
 	public RedisTemplate<String, Object> redisTemplate() {
 		RedisTemplate<String, Object> template = new RedisTemplate<>();
-		template.setConnectionFactory(redisConnectionFactory());
+		template.setConnectionFactory(redisConnectionFactoryDb07());
 		template.setKeySerializer(new StringRedisSerializer());
 		template.setValueSerializer(new StringRedisSerializer());
 		return template;
 	}
 	
+	@Bean
+	public RedisConnectionFactory redisConnectionFactoryDb03() {
+	    RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
+	    config.setDatabase(3); // 3번 DB 설정
+	    return new LettuceConnectionFactory(config);
+	}
+	
     @Bean
-    public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+    public RedisCacheManager cacheManager() {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig() // static메서드 defaultCacheConfig
                 .entryTtl(Duration.ofHours(1)) // 캐시에 저장된 항목의 Time-To-Live(TTL)을 설정, 캐시 항목의 유효한 기간을 의미, 이 기간이 지나면 캐시에서 자동으로 제거
                 .disableCachingNullValues(); // null 값을 캐시에 저장하지 않도록 설정
@@ -48,7 +55,7 @@ public class RedisConfig {
          * .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
          */
         
-        return RedisCacheManager.builder(connectionFactory) // static메서드 builder 반환타입은 RedisCacheManagerBuilder 
+        return RedisCacheManager.builder(redisConnectionFactoryDb03()) // static메서드 builder 반환타입은 RedisCacheManagerBuilder 
                 .cacheDefaults(config) //
                 .build();
     }
