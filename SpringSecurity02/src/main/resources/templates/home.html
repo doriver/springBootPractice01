@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+home
+<!-- 
+스프링버전 3.3.0으로 올리니까, 이거때문에 에러남, 이게 구버전이였나?
+아마 타임리프 3버전에서 6버전으로 바뀌면서 그런듯 
+<p th:text="'Hello, ' + ${#httpServletRequest.remoteUser} + '!'"></p>
+ -->
+
+<a href="/plogin">로그인 페이지로</a>
+
+	<form th:action="@{/custom-logout}" method="post">
+	        <button type="submit">Logout</button>
+	</form>
+</body>
+</html>
