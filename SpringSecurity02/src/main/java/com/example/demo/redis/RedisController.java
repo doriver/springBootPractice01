@@ -17,7 +17,10 @@ public class RedisController {
 	private RedisRepo redisRepo;
 
 
-	
+	@GetMapping("/tt")
+	public String asafd() {
+		return "hello";
+	}
 	
 	
 	@PostMapping("/saveT")
