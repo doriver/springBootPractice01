@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/valid")
-public class ExValidController {
+public class JsonValidController {
 
 	@PostMapping("/t1")
 	public String ex01(@RequestBody @Valid RequestJsonDto dto, BindingResult bindingResult) {
