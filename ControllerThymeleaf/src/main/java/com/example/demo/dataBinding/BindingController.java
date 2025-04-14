@@ -19,4 +19,10 @@ public class BindingController {
 		log.info("{} {}", dto.getName(), dto.getAge());
 		return "성공";
 	}
+	/*
+	 * @RequestBody에서 발생할수 있는 에러
+	 * org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `int` from String "ㅁㄴㅇ"
+	 * org.springframework.web.HttpMediaTypeNotSupportedException: Content-Type 'text/plain;charset=UTF-8' is not supported
+	 */
+	
 }
