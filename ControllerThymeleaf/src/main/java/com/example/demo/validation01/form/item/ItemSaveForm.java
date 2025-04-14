@@ -1,4 +1,4 @@
-package com.example.demo.validation.domain.item;
+package com.example.demo.validation01.form.item;
 
 import org.hibernate.validator.constraints.Range;
 
@@ -8,10 +8,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class Item {
-
-	private Long id;
-
+public class ItemSaveForm {
+	
 	@NotBlank
 	private String itemName;
 	
@@ -22,14 +20,4 @@ public class Item {
 	@NotNull
 	@Max(9999)
 	private Integer quantity;
-	
-	public Item() {
-		
-	}
-	
-	public Item(String itemName, Integer price, Integer quantity) {
-		this.itemName = itemName;
-		this.price = price;
-		this.quantity = quantity;
-	}
 }

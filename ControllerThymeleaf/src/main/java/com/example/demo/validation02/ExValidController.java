@@ -1,4 +1,4 @@
-package com.example.demo.validation.valid;
+package com.example.demo.validation02;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

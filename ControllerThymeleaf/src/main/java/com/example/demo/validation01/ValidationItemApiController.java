@@ -1,4 +1,4 @@
-package com.example.demo.validation;
+package com.example.demo.validation01;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.validation.form.item.ItemSaveForm;
+import com.example.demo.validation01.form.item.ItemSaveForm;
 
 import lombok.extern.slf4j.Slf4j;
 

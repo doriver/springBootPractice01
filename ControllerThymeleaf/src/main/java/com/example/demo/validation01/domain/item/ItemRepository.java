@@ -1,4 +1,4 @@
-package com.example.demo.validation.domain.item;
+package com.example.demo.validation01.domain.item;
 
 import org.springframework.stereotype.Repository;
 

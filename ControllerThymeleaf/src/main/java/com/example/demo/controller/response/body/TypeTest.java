@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.validation.domain.item.Item;
+import com.example.demo.validation01.domain.item.Item;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.example.demo.validation;
+package com.example.demo.validation01;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,10 +9,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.validation.domain.item.Item;
-import com.example.demo.validation.domain.item.ItemRepository;
-import com.example.demo.validation.form.item.ItemSaveForm;
-import com.example.demo.validation.form.item.ItemUpdateForm;
+import com.example.demo.validation01.domain.item.Item;
+import com.example.demo.validation01.domain.item.ItemRepository;
+import com.example.demo.validation01.form.item.ItemSaveForm;
+import com.example.demo.validation01.form.item.ItemUpdateForm;
 
 import java.util.List;
 
