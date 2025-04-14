@@ -28,6 +28,7 @@ public class JsonValidController {
 		if (bindingResult.hasErrors()) {
 			return validationStr(bindingResult);
 		}
+		log.info("{} {}", dto.getName(), dto.getAge());
 		return "통과";
 	}
 	
@@ -61,4 +62,17 @@ public class JsonValidController {
         return builder.toString();
 	}
 	
+	@PostMapping("/t2")
+	public String ex02(@RequestBody @Valid RequestJsonDto dto) {
+		log.info("{} {}", dto.getName(), dto.getAge());
+		return "통과";
+	}
+	
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String handleValidationExceptions(MethodArgumentNotValidException ex) {
+    	log.error("[exceptionHandlerJson]", ex);
+        BindingResult bindingResult = ex.getBindingResult();
+       
+        return validationStr(bindingResult);
+    }
 }
