@@ -7,17 +7,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-
+/*
+ * IllegalStateException: Cannot resolve parameter names for constructor
+ * IDE에서 -parameter 옵션을 Compile 시에 활성화 시켜야 해결됨
+ */
 @Getter
-//@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RequestUrlEncodedDto {
 	@NotBlank
-	private String name;
+	private final String name;
 	
 	@Min(value=4)
-	private int age;
+	private final int age;
 	
 	@Min(value=4)
-	private int num;
+	private final int num;
 }
